@@ -1,5 +1,5 @@
 // Get your game on...
-YUI().use('event', 'event-key', function(Y) {
+YUI().use('event', 'event-key','node', function(Y) {
 	
 	
 	/* Add much needed hover support to YUI */
@@ -142,24 +142,46 @@ YUI().use('event', 'event-key', function(Y) {
 		
 		
 		/* Hover Events */
-		Y.on('mouseenter', function(e) {
-			if(Y.Object.size(selectedUnit) > 0) {							
-				Y.all('#map div').removeClass('path');
-				map.clearPath();				
-				var endTile = map.tileIdToPoint(e.target.get('id'));				
-				var startTile = map.tileIdToPoint(selectedUnit.tileId);
-				// make sure this is actually passable	
-				if(!Y.Object.hasKey(map.tiles[endTile.tileId], 'terrain') ||
-					!Y.Object.hasKey(map.tiles[endTile.tileId], 'path')) {
-					var unitPathFinder = new PathFinder(map);							
-					var unitPath = unitPathFinder.findPath(startTile, endTile);
-					if(unitPath!=false) {
-						map.highlightPath(unitPathFinder.finalPath);
-					}	
-				}
-			}
-		}, '#map div');
+        Y.one('#map').delegate('mouseenter', function(e) {
+            console.log('enter2'+Math.random(1,2));
+            e.currentTarget.setData('pathfinder', {cancel: function() { console.log('cancelling');}});
+            //e.currentTarget -  defined target element - one we looking for
+            //e.target - The element that was really clicked
+            //e.container - the node we delegated on
+        }, 'div');
+
+        Y.one('#map').delegate('mouseleave', function(e) {
+            console.log('leaving tile, so cancel the pathfinder');
+            e.currentTarget.getData('pathfinder').cancel();
+            
+            //e.currentTarget -  defined target element - one we looking for
+            //e.target - The element that was really clicked
+            //e.container - the node we delegated on
+        }, 'div');
 		
+		
+    
+       Y.on('mouseenterrrrr', function(e) {
+
+console.log('enter2'+Math.random(1,2));
+               // if(Y.Object.size(selectedUnit) > 0) {                           
+               //     Y.all('#map div').removeClass('path');
+               //     map.clearPath();                
+               //     var endTile = map.tileIdToPoint(e.target.get('id'));                
+               //     var startTile = map.tileIdToPoint(selectedUnit.tileId);
+               //     // make sure this is actually passable  
+               //     if(!Y.Object.hasKey(map.tiles[endTile.tileId], 'terrain') ||
+               //         !Y.Object.hasKey(map.tiles[endTile.tileId], 'path')) {
+               //         var unitPathFinder = new PathFinder(map);                           
+               //         var unitPath = unitPathFinder.findPath(startTile, endTile);
+               //         if(unitPath!=false) {
+               //             map.highlightPath(unitPathFinder.finalPath);
+               //         }   
+               //     }
+               // }
+           }, '#map div');
+           
+	
 		
 		/* Key events */
 		

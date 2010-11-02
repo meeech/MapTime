@@ -32,6 +32,8 @@
 //  2. On the way back (this.getBestPath), when comparing two closed tiles, should I always choose by lowest g-cost?
 //
 
+// window.adjRunning = false;
+
 function PathFinder(map) {
 
 	this.squareCost = 10;
@@ -76,7 +78,9 @@ function PathFinder(map) {
 		this.addToOpen(pointA);
 
 		// Get adjacent tiles that are not impassible
+        // window.adjRunning = true;
 		var adjacentTiles = this.getAdjacentTiles(pointA);
+        // window.adjRunning = false;
 		if (Y.Object.size(adjacentTiles) == 0) {
 			var nearestOpen = this.findNearestOpenTile();
 			if (nearestOpen) {
@@ -173,8 +177,9 @@ function PathFinder(map) {
 			},
 			this);
 			// If it has no open neighbors, remove it from this.openTiles (it's a dead end)
+            // window.adjRunning = true;
 			var adjacentOpenTiles = this.getAdjacentTiles(lowestCost);
-		
+            // window.adjRunning = false;
 			if(!Y.Object.size(adjacentOpenTiles) > 0) {
 				this.removeFromOpen(lowestCost);
 				this.findNearestOpenTile();
@@ -359,6 +364,12 @@ function PathFinder(map) {
 	*	Returns an object of adjacent tiles. Ignores impassable terrain and closed tiles.
 	*/
 	this.getAdjacentTiles = function(point) {
+	    
+        // if(window.adjRunning) {
+        //     console.log('RUNNING COLLISSION');
+        //     return true;
+        // }
+	    
 		var adjacentTiles = this.adjacentTiles(point);		
 		var validAdjacentTiles = {};
 		// Loop through and get a list of valid tiles
@@ -374,6 +385,7 @@ function PathFinder(map) {
 			}
 		},
 		this);
+
 		if(validAdjacentTiles.length==0) {
 			return false;
 		}else{
@@ -389,7 +401,7 @@ function PathFinder(map) {
 	*/
 	this.getFinalPath = function(tile) {
 		return tile;
-	}
+	};
 
 	/*
 	*	calculateGCost(tile)
@@ -467,7 +479,7 @@ function PathFinder(map) {
 			return true;
 		}
 		return false;
-	}
+	};
 
 	/*
 	*	isClosed(tile)
@@ -480,7 +492,7 @@ function PathFinder(map) {
 		} else {
 			return false;
 		}
-	}
+	};
 
 	/*
 	*	estimateDistanceCost(pointA,pointB)
@@ -492,6 +504,6 @@ function PathFinder(map) {
 		var yDistance = Math.abs(pointA['y'] - pointB['y']);
 		var estimatedCost = (xDistance + yDistance) * this.squareCost;
 		return estimatedCost;
-	}
+	};
 
 }

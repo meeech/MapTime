@@ -73,7 +73,7 @@ function Map(width, height) {
 	this.clearPath = function() {		
 		Y.each(this.tiles, function(tile, tileId) {
 			if(Y.Object.hasKey(tile, 'path')) {
-				console.log('detete path');
+				//console.log('detete path');
 				delete tile['path'];
 			}
 		}, this);
@@ -137,7 +137,7 @@ function Map(width, height) {
 	*	Adds a visual start point on the map. Primary used for debugging.
 	*/
 	this.addStart = function(point) {
-		console.log(point);
+		//console.log(point);
 		this.tiles[point.tileId]['start'] = {init: true};
 		this.updateMap();
 	};
@@ -148,7 +148,7 @@ function Map(width, height) {
 	*	Adds a visual start point on the map. Primary used for debugging.
 	*/
 	this.addFinish = function(point) {
-		console.log(point);
+		//console.log(point);
 		this.tiles[point.tileId]['finish'] = {init: true};
 		this.updateMap();
 	};
@@ -160,9 +160,9 @@ function Map(width, height) {
 	*	unrendered units, terrain, paths, and other objects.
 	*/
 	this.updateMap = function() {
-		console.log('updating map');
+		//console.log('updating map');
 		Y.each(this.tiles, function(tile,key) {			
-			// console.log(tileId);
+			// //console.log(tileId);
 			if(Y.Object.hasKey(tile,'terrain')) {
 				Y.one('[id='+key+']').addClass(this.tiles[key]['terrain']['name']);
 			}
@@ -191,11 +191,11 @@ function Map(width, height) {
 	*	A convenience method used to debug path finding. Given a path object, it will highlight
 	*/
 	this.highlightPath = function(path) {
-		console.log(path,'highlighting path tiles');
+		//console.log(path,'highlighting path tiles');
 		Y.each(path, function(tile) {
-			console.log(tile,'pathfinding');
+			//console.log(tile,'pathfinding');
 			this.tiles[tile.tileId]['path'] = {init: true};
-			// console.log(tile,'pathfinding');
+			// //console.log(tile,'pathfinding');
 		}, this);
 		// for(tile in path) {
 		// 	document.getElementById(tile).className += " path";
